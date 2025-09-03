@@ -64,14 +64,26 @@ def test_hover_kytary(page: Page):
     assert dropdown_menu.is_visible() == True
 
 
-    def test_validation_error(page: Page):
-        '''Testuje, zda se po zadání korektního emailu a špatného hesla 
-        objeví validační chybová hláška'''
-    
+def test_valid_error_message(page: Page):
+    '''Testuje, zda se po zadání korektního emailu a špatného hesla 
+    objeví validační chybová hláška'''
+
     page.goto("https://kytary.cz/")
     cookies_necessary = page.locator("text='Povolit nezbytné'")
     cookies_necessary.click()
-    
-    
+
+    account_button = page.locator(".m-icons a:nth-of-type(3) .desc")
+    account_button.click()
+
+    email_input = page.locator("#Login_LoginName")
+    email_input.fill("karel@seznam.cz")
+    password_input = page.locator("#Login_Password")
+    password_input.fill("tohlehesloneuhadnu")
+    button = page.locator("#loginModal input[type='submit']")
+    button.press("Enter")
+    validation_error = page.locator(".validation-error")
+
+    assert validation_error.is_visible() == True
+
       
 

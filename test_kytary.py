@@ -65,6 +65,13 @@ def test_hover_kytary(page: Page):
 
 
     def test_validation_error(page: Page):
-      
+        '''Testuje, zda se po zadání korektního emailu a špatného hesla 
+        objeví validační chybová hláška'''
+    
+    page.goto("https://kytary.cz/")
+    cookies_necessary = page.locator("text='Povolit nezbytné'")
+    cookies_necessary.click()
+    
+    
       
 

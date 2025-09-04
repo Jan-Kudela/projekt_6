@@ -9,7 +9,8 @@ def page():
         yield page
 
 def cookie_bar_accept():
-    #page.goto("https://kytary.cz/")
+    '''Funkce pro kliknuti na tlacitko "Povolit vše" v cookie baru'''
+    
     accept_button = page.locator("#cpModal .btn-success")
     accept_button.click()
     yield
@@ -44,7 +45,7 @@ def test_login_window(page: Page):
 
 
 def test_hover_kytary(page: Page):
-    '''Testuje, zda se po najeti mysi na tlačítko Kytary v horizontálním menu
+    '''Testuje, zda se po najetí myší na tlačítko Kytary v horizontálním menu
       zobrazi drop-down menu s kategoriemi'''
     
     page.goto("https://kytary.cz/")
@@ -60,13 +61,12 @@ def test_hover_kytary(page: Page):
         "#categories > div > nav > ul > li:nth-child(1)"
         " > div > div > div.r6.hlnks > a:nth-child(3) > span.lbl"
     )
-
     assert dropdown_menu.is_visible() == True
 
 
 def test_valid_error_message(page: Page):
     '''Testuje, zda se po zadání korektního emailu a špatného hesla 
-    objeví validační chybová hláška'''
+    objeví validační chybová hláška v okně Přihlášení'''
 
     page.goto("https://kytary.cz/")
     cookies_necessary = page.locator("text='Povolit nezbytné'")
@@ -75,10 +75,9 @@ def test_valid_error_message(page: Page):
     account_button = page.locator(".m-icons a:nth-of-type(3) .desc")
     account_button.click()
 
-    email_input = page.locator("#Login_LoginName")
-    email_input.fill("karel@seznam.cz")
-    password_input = page.locator("#Login_Password")
-    password_input.fill("tohlehesloneuhadnu")
+    page.fill("#Login_LoginName", "karel@seznam.cz")
+    page.fill("#Login_Password", "tohlehesloneuhadnu")
+    
     button = page.locator("#loginModal input[type='submit']")
     button.press("Enter")
     validation_error = page.locator(".validation-error")

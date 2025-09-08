@@ -8,12 +8,19 @@ def page():
         page = browser.new_page()
         yield page
 
-def cookie_bar_accept():
+
+def accept_cookies(page: Page):
     '''Funkce pro kliknuti na tlacitko "Povolit vše" v cookie baru'''
     
     accept_button = page.locator("#cpModal .btn-success")
     accept_button.click()
-    yield
+
+
+def necessary_cookies(page: Page):
+    '''Funkce pro kliknuti na tlacitko "Povolit nezbytné" v cookie baru'''
+    
+    cookies_necessary = page.locator("text='Povolit nezbytné'")
+    cookies_necessary.click()
 
 
 def test_accept_cookies(page: Page):
@@ -21,7 +28,7 @@ def test_accept_cookies(page: Page):
     
     page.goto("https://kytary.cz/")
 
-    cookie_bar_accept()
+    accept_cookies(page)
     
     cookie_bar = page.locator("#modal-body")
 
@@ -33,8 +40,7 @@ def test_login_window(page: Page):
       zobrazi prihlasovaci okno'''
     
     page.goto("https://kytary.cz/")
-    cookies_necessary = page.locator("text='Povolit nezbytné'")
-    cookies_necessary.click()
+    necessary_cookies(page)
 
     account_button = page.locator(".m-icons a:nth-of-type(3) .desc")
     account_button.click()
@@ -49,8 +55,7 @@ def test_hover_kytary(page: Page):
       zobrazi drop-down menu s kategoriemi'''
     
     page.goto("https://kytary.cz/")
-    cookies_necessary = page.locator("text='Povolit nezbytné'")
-    cookies_necessary.click()
+    necessary_cookies(page)
 
     kytary_button = page.locator(
         "#categories > div > nav > ul > li:nth-child(1) > a > span.lbl"
@@ -69,8 +74,7 @@ def test_valid_error_message(page: Page):
     objeví validační chybová hláška v okně Přihlášení'''
 
     page.goto("https://kytary.cz/")
-    cookies_necessary = page.locator("text='Povolit nezbytné'")
-    cookies_necessary.click()
+    necessary_cookies(page)
 
     account_button = page.locator(".m-icons a:nth-of-type(3) .desc")
     account_button.click()
